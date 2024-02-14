@@ -11,11 +11,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController
@@ -56,7 +59,7 @@ public class PostController {
 
     @GetMapping("/posts/search/title")
     public List<Post> getPostsLikeTitle(@RequestParam("query") String query) {
-        List<Post> posts = postService.getPostsByTitle(query);
+        List<Post> posts = postService.searchPostByTitle(query);
         return posts;
     }
 
@@ -78,5 +81,27 @@ public class PostController {
             return new Result(500,"fail");
         }
     }
-    
+
+    @DeleteMapping("/post")
+    public Object deletePost(HttpServletResponse response, @RequestParam("id") Long id) {
+        boolean isSuccess = postService.deletePost(id);
+        if(isSuccess) {
+            return new Result(200,"success");
+        } else {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return new Result(500,"fail");
+        }
+    }
+
+    @PutMapping("/post")
+    public Object modifyPost(HttpServletResponse response, @RequestBody Post postParam) {
+        Post result = new Post(postParam.getId(), postParam.getTitle(), postParam.getContent());
+        boolean isSuccess = postService.updatePost(result);
+        if(isSuccess) {
+            return new Result(200,"success");
+        } else {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return new Result(500,"fail");
+        }
+    }
 }
