@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.simpleblog.service.PostService;
 import com.blog.simpleblog.vo.Post;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -21,13 +24,8 @@ public class PostController {
     }
     
     @GetMapping("/posts")
-    public Post[] getPosts() {
-        Post[] posts = new Post[]{
-            new Post(1L, "Dafa", "First Blog", "Welcome to my blog!"),
-            new Post(2L, "Dafa", "Second Blog", "Welcome to my blog!"),
-            new Post(3L, "Dafa", "Third Blog", "Welcome to my blog!")
-        };
-
+    public List<Post> getPosts() {
+        List<Post> posts = postService.getPosts();
         return posts;
     }
     
