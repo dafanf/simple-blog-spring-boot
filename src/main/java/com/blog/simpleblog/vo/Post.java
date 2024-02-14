@@ -15,7 +15,8 @@ public class Post {
         super();
         this.id = id;
         this.user = user;
-        this.title = title; this.content = content;
+        this.title = title; 
+        this.content = content;
         this.regDate = new Date();
         this.updtDate = new Date();
     }
@@ -25,7 +26,7 @@ public class Post {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getüser() {
+    public String getUser() {
         return user;
     }
     public void setUser(String user) {

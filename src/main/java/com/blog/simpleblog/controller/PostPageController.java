@@ -1,7 +1,10 @@
 package com.blog.simpleblog.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.ui.Model;
 
 
 @Controller
@@ -12,4 +15,9 @@ public class PostPageController {
         return "index";
     }
     
+    @RequestMapping("/page/detail/{id}")
+    public String getDetailPage(@PathVariable("id") int id, Model model) {
+        model.addAttribute("id", id);
+        return "detail";
+    }
 }
