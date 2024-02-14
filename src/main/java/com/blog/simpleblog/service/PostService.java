@@ -1,29 +1,53 @@
 package com.blog.simpleblog.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.blog.simpleblog.repository.PostRepository;
 import com.blog.simpleblog.vo.Post;
 
 @Service
 public class PostService {
-    // private static List<Post> posts;
-    public Post getPost(int id) {
-        List<Post> posts = new ArrayList<>();
-        posts.add(new Post(1L, "Dafa", "First Blog", "Welcome to my blog!"));
-        posts.add(new Post(2L, "Dafa", "Second Blog", "This is my second blog!"));
-        posts.add(new Post(3L, "Dafa", "Third Blog", "This is my third blog!"));
-        Post post = posts.get(id - 1);
+    @Autowired
+    PostRepository postRepository;
+    public Post getPost(Long id) {
+        Post post = postRepository.findOne(id);
         return post;
     }
 
     public List<Post> getPosts() {
-        List<Post> posts = new ArrayList<>();
-        posts.add(new Post(1L, "Dafa", "First Blog", "Welcome to my blog!"));
-        posts.add(new Post(2L, "Dafa", "Second Blog", "This is my second blog!"));
-        posts.add(new Post(3L, "Dafa", "Third Blog", "This is my third blog!"));
-        return posts;
+        List<Post> postList = postRepository.findPost();
+        return postList;
+    }
+
+    public List<Post> getPostsOrderByUpdtAsc() {
+        List<Post> postList = postRepository.findPostOrderByUpdtDateAsc();
+        return postList;
+    }
+
+    public List<Post> getPostsOrderByRegDesc() {
+        List<Post> postList = postRepository.findPostOrderByRegDateDesc();
+        return postList;
+    }
+
+    public List<Post> getPostsByTitle(String query) {
+        List<Post> postList = postRepository.findPostLikeTitle(query);
+        return postList;
+    }
+
+    public List<Post> searchPostByContent(String query) {
+        List<Post> postList = postRepository.findPostLikeContent(query);
+        return postList;
+    }
+
+    public boolean savePost(Post post) {
+        int result = postRepository.savePost(post);
+        boolean isSuccess = true;
+        if (result == 0) {
+            isSuccess = false;
+        }
+        return isSuccess;
     }
 }

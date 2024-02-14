@@ -9,11 +9,16 @@ public class Post {
     private Date regDate;
     private Date updtDate;
     public Post(){
-
     }
-    public Post(Long id, String user, String title, String content) { 
-        super();
+    public Post(Long id, String user, String title, String content) {
         this.id = id;
+        this.user = user;
+        this.title = title; 
+        this.content = content;
+        this.regDate = new Date();
+        this.updtDate = new Date();
+    }
+    public Post(String user, String title, String content) {
         this.user = user;
         this.title = title; 
         this.content = content;
